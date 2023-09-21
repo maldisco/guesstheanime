@@ -174,8 +174,6 @@ const HomePage = () => {
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center" width="100%">
-              </Box>
-              <Box display="flex" justifyContent="center" width="100%">
                 <Typography variant="h5">
                   Review: {anime.resumo}
                 </Typography>
@@ -183,11 +181,7 @@ const HomePage = () => {
               <Box display="flex" justifyContent="center" width="100%">
                 {currentGuessNumber > 1 && (
                   <Typography variant="h5">
-                    {anime.studios.length === 1
-                      ? `Estúdio: ${anime.studios[0]}`
-                      : `Estúdios: ${anime.studios
-                          .map((studio) => studio)
-                          .join(" | ")}`}
+                    Estúdio: {anime.studio}
                   </Typography>
                 )}
               </Box>
@@ -214,11 +208,7 @@ const HomePage = () => {
               )}
               {currentGuessNumber > 5 && (
                 <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5">
-                    Nome dos personagens:{" "}
-                    {anime.personagens
-                      .map((personagem) => personagem)
-                      .join(" | ")}
+                  <Typography variant="h5" dangerouslySetInnerHTML={{ __html: `Descrição: ${anime.desc}` }}>
                   </Typography>
                 </Box>
               )}

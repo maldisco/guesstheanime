@@ -18,7 +18,7 @@ function AnimeNameAutocomplete({ animeNames, onNameSelect}) {
           onNameSelect(newValue);
         }}
         renderInput={(params) => (
-          <TextField {...params} name="nome" label="Nome" fullWidth sx={{ m: "1rem 0" }}/>
+          <TextField {...params} name="anime-name" label="Pesquise por um anime..." fullWidth sx={{ m: "1rem 0" }}/>
         )}
       />
     );

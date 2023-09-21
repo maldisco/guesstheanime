@@ -111,6 +111,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getAnime();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -29,6 +29,7 @@ function Leaderboard({ isOpen, onClose }) {
       Object.values(correctGuesses).reduce((acc, curr) => acc + curr, 0)
     );
     setWinPercentage(Math.floor((totalWins / totalGuesses) * 100));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

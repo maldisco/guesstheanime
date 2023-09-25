@@ -19,11 +19,8 @@ const NavBar = () => {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
 
   const theme = useTheme();
-  const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
-  const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
-  const primary = theme.palette.primary.main;
   const alt = theme.palette.background.alt;
 
   return (
@@ -41,7 +38,7 @@ const NavBar = () => {
             },
           }}
         >
-          Chuta o anime
+          Adivinha o anime
         </Typography>
       </FlexBetween>
 

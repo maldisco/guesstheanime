@@ -28,7 +28,6 @@ router.get("/nomes", (req, res, next) => {
 
 router.post("/aleatorio", (req, res, next) => {
   const excludedIds = req.body.excludedIds || [];
-
   /* return a random anime */
   Anime.aggregate([
     {

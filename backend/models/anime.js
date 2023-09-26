@@ -3,12 +3,17 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const animeSchema = mongoose.Schema({
   nome: { type: String, required: true, unique: true },
+  nome2: { type: String },
   desc: { type: String, required: true },
   studio: { type: String },
   generos: [{ type: String }],
-  ano: { type: Number },
+  ano: { type: String },
   episodios: { type: Number },
-  score: { type: Number },
+  score: {
+    Filipe: { type: String, default: '-' },
+    Tuzzin: { type: String, default: '-' },
+    Taboada: { type: String, default: '-' }
+  },
   popularidade: { type: Number },
   tags: [{ type: String }],
   resumo: { type: String },

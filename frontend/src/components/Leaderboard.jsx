@@ -25,10 +25,12 @@ function Leaderboard({ isOpen, onClose }) {
   const sixWidth = `${(correctGuesses[6] / (maxGuesses || 1) || 0.02) * 100}%`;
 
   useEffect(() => {
-    setTotalWins(
-      Object.values(correctGuesses).reduce((acc, curr) => acc + curr, 0)
+    const wins = Object.values(correctGuesses).reduce(
+      (acc, curr) => acc + curr,
+      0
     );
-    setWinPercentage(Math.floor(totalWins / totalGuesses) * 100);
+    setTotalWins(wins);
+    setWinPercentage(Math.floor((wins / totalGuesses)* 100));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alreadyGuessed]);
 

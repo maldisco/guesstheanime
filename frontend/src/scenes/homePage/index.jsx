@@ -12,6 +12,8 @@ import {
   setGuessNumber,
   setGuessPrevious,
 } from "state";
+import axios from "axios";
+import FlexBetween from "components/FlexBetween";
 
 const HomePage = () => {
   const guessNumber = useSelector((state) => state.guessNumber);
@@ -36,16 +38,16 @@ const HomePage = () => {
 
   const getAnime = async () => {
     if (!current) {
-      const response = await fetch(
-        "http://localhost:3001/api/animes/aleatorio",
-        {
-          method: "POST",
-          body: { excludedIds: JSON.stringify({ alreadyGuessed }) },
-        }
-      );
-      const data = await response.json();
-      setAnime(data);
-      dispatch(setCurrent(data));
+      axios
+        .post(
+          "http://localhost:3001/api/animes/aleatorio",
+          JSON.stringify({ excludedIds: alreadyGuessed }),
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          setAnime(response.data);
+          dispatch(setCurrent(response.data));
+        });
     } else {
       setAnime(current);
     }
@@ -83,13 +85,16 @@ const HomePage = () => {
 
     dispatch(setAlreadyGuessed([...alreadyGuessed, anime._id]));
 
-    const response = await fetch("http://localhost:3001/api/animes/aleatorio", {
-      method: "POST",
-      body: { excludedIds: JSON.stringify({ alreadyGuessed }) },
-    });
-    const data = await response.json();
-    setAnime(data);
-    dispatch(setCurrent(data));
+    axios
+      .post(
+        "http://localhost:3001/api/animes/aleatorio",
+        JSON.stringify({ excludedIds: alreadyGuessed }),
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then((response) => {
+        setAnime(response.data);
+        dispatch(setCurrent(response.data));
+      });
     setcurrentGuessNumber(1);
     setGuess("");
     setCorrect(false);
@@ -174,21 +179,20 @@ const HomePage = () => {
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="center" width="100%">
-                <Typography variant="h5">
-                  Review: {anime.resumo}
-                </Typography>
+                <Typography variant="h5">Review: {anime.resumo}</Typography>
               </Box>
-              <Box display="flex" justifyContent="center" width="100%">
-                {currentGuessNumber > 1 && (
+              {currentGuessNumber > 1 && (
+                <Box display="flex" justifyContent="center" width="100%">
                   <Typography variant="h5">
-                    Estúdio: {anime.studio}
+                    Estúdio: {anime.studio}, Gêneros:{" "}
+                    {anime.generos.map((genre) => genre).join(" | ")}{" "}
                   </Typography>
-                )}
-              </Box>
+                </Box>
+              )}
               {currentGuessNumber > 2 && (
                 <Box display="flex" justifyContent="center" width="100%">
                   <Typography variant="h5">
-                    Gêneros: {anime.generos.map((genre) => genre).join(" | ")}
+                    N° episódios: {anime.episodios}, Ano: {anime.ano}
                   </Typography>
                 </Box>
               )}
@@ -202,14 +206,19 @@ const HomePage = () => {
               {currentGuessNumber > 4 && (
                 <Box display="flex" justifyContent="center" width="100%">
                   <Typography variant="h5">
-                    Ano de lançamento: {anime.ano}
+                    Notas: Filipe: {anime.score.Filipe} | Tuzzin:{" "}
+                    {anime.score.Tuzzin} | Taboada: {anime.score.Taboada}
                   </Typography>
                 </Box>
               )}
               {currentGuessNumber > 5 && (
                 <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5" dangerouslySetInnerHTML={{ __html: `Descrição: ${anime.desc}` }}>
-                  </Typography>
+                  <Typography
+                    variant="h5"
+                    dangerouslySetInnerHTML={{
+                      __html: `Descrição: ${anime.desc}`,
+                    }}
+                  ></Typography>
                 </Box>
               )}
               {!finished && (

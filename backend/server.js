@@ -30,6 +30,7 @@ mongoose
     console.log("Connection failed.");
   });
 
+
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));

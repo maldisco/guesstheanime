@@ -1,11 +1,7 @@
-import {
-  Typography,
-  useTheme,
-  IconButton,
-} from "@mui/material";
+import { Typography, useTheme, IconButton } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +40,11 @@ const NavBar = () => {
 
       <FlexBetween gap="2rem">
         <IconButton onClick={() => setIsLeaderboardOpen(true)}>
-          <LeaderboardIcon sx={{ fontSize: "25px" }} />
+          {theme.palette.mode === "dark" ? (
+            <LeaderboardIcon sx={{ fontSize: "25px" }} />
+          ) : (
+            <LeaderboardIcon sx={{ color: dark, fontSize: "25px" }} />
+          )}
         </IconButton>
         <IconButton onClick={() => dispatch(setMode())}>
           {theme.palette.mode === "dark" ? (
@@ -54,8 +54,11 @@ const NavBar = () => {
           )}
         </IconButton>
       </FlexBetween>
-      
-      <Leaderboard isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)}/>
+
+      <Leaderboard
+        isOpen={isLeaderboardOpen}
+        onClose={() => setIsLeaderboardOpen(false)}
+      />
     </FlexBetween>
   );
 };

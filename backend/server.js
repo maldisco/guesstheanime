@@ -7,6 +7,9 @@ const dotenv = require("dotenv");
 const path = require("path");
 const { fileUrlToPath } = require("url");
 
+const fs = require("fs");
+const Anime = require("./models/anime"); // Replace with the actual path to your Anime model
+
 const animeRoutes = require("./routes/animes");
 const authRoutes = require("./routes/auth");
 const usuarioRoutes = require("./routes/usuarios");
@@ -30,6 +33,19 @@ mongoose
     console.log("Connection failed.");
   });
 
+/* const jsonFilePath = "animelistWebgados.json"; // Replace with the actual path to your JSON file
+
+fs.readFile(jsonFilePath, "utf8", (err, data) => {
+  if (err) {
+    console.error("Error reading JSON file: " + err);
+    return;
+  }
+
+  const animeData = JSON.parse(data);
+
+  // Assuming animeData is an array of anime objects, you can insert them all at once using insertMany
+  Anime.insertMany(animeData);
+}); */
 
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));

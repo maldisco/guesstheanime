@@ -14,7 +14,7 @@ const animeSchema = mongoose.Schema({
     Tuzzin: { type: String, default: '-' },
     Taboada: { type: String, default: '-' }
   },
-  popularidade: { type: Number },
+  popularidade: { type: String },
   tags: [{ type: String }],
   resumo: { type: String },
   capa: { type: String },

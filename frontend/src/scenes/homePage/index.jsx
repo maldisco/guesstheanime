@@ -13,7 +13,6 @@ import {
   setGuessPrevious,
 } from "state";
 import axios from "axios";
-import FlexBetween from "components/FlexBetween";
 
 const HomePage = () => {
   const guessNumber = useSelector((state) => state.guessNumber);
@@ -64,7 +63,7 @@ const HomePage = () => {
   };
 
   const tryGuess = async () => {
-    if (guess === anime.nome) {
+    if (guess === anime.nome || guess === anime.nome2) {
       dispatch(addCorrectGuess(currentGuessNumber));
       setCorrect(true);
       setFinished(true);
@@ -143,6 +142,9 @@ const HomePage = () => {
                   />
                 )}
               </Box>
+              <Box display="flex" justifyContent="center" width="100%">
+                <Typography variant="h5">Lançamento: {anime.ano}</Typography>
+              </Box>
               <Box
                 display="flex"
                 justifyContent="center"
@@ -153,7 +155,13 @@ const HomePage = () => {
                   <Typography
                     sx={{
                       backgroundColor:
-                        index + 1 <= currentGuessNumber ? neutralLight : alt,
+                        finished && correct && index + 1 === currentGuessNumber
+                          ? "green"
+                          : finished && !correct
+                          ? "red"
+                          : index + 1 <= currentGuessNumber
+                          ? neutralLight
+                          : alt,
                       borderRadius: "15%",
                       p: "0.5rem",
                     }}
@@ -174,53 +182,11 @@ const HomePage = () => {
                     },
                   }}
                   fontWeight="bold"
+                  disabled={finished}
                 >
                   Pular
                 </Typography>
               </Box>
-              <Box display="flex" justifyContent="center" width="100%">
-                <Typography variant="h5">Review: {anime.resumo}</Typography>
-              </Box>
-              {currentGuessNumber > 1 && (
-                <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5">
-                    Estúdio: {anime.studio}, Gêneros:{" "}
-                    {anime.generos.map((genre) => genre).join(" | ")}{" "}
-                  </Typography>
-                </Box>
-              )}
-              {currentGuessNumber > 2 && (
-                <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5">
-                    N° episódios: {anime.episodios}, Ano: {anime.ano}
-                  </Typography>
-                </Box>
-              )}
-              {currentGuessNumber > 3 && (
-                <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5">
-                    Tags: {anime.tags.map((tag) => tag).join(" | ")}
-                  </Typography>
-                </Box>
-              )}
-              {currentGuessNumber > 4 && (
-                <Box display="flex" justifyContent="center" width="100%">
-                  <Typography variant="h5">
-                    Notas: Filipe: {anime.score.Filipe} | Tuzzin:{" "}
-                    {anime.score.Tuzzin} | Taboada: {anime.score.Taboada}
-                  </Typography>
-                </Box>
-              )}
-              {currentGuessNumber > 5 && (
-                <Box display="flex" justifyContent="center" width="100%">
-                  <Typography
-                    variant="h5"
-                    dangerouslySetInnerHTML={{
-                      __html: `Descrição: ${anime.desc}`,
-                    }}
-                  ></Typography>
-                </Box>
-              )}
               {!finished && (
                 <Box
                   display="flex"
@@ -251,8 +217,8 @@ const HomePage = () => {
                   width="100%"
                   alignItems="center"
                 >
-                  <Typography color="primary" variant="h4">
-                    Acertou em {currentGuessNumber} tentativas!
+                  <Typography color="green" variant="h4">
+                    Parabéns! Você acertou!
                   </Typography>
                   <Box>
                     <Button
@@ -293,6 +259,56 @@ const HomePage = () => {
                   </Box>
                 </Box>
               )}
+              <Box display="flex" justifyContent="center" width="100%">
+                <Typography variant="h5">Review: {anime.resumo}</Typography>
+              </Box>
+              {currentGuessNumber > 1 && (
+                <Box display="flex" justifyContent="center" width="100%">
+                  <Typography variant="h5">
+                    Estúdio: {anime.studio}, Gêneros:{" "}
+                    {anime.generos.map((genre) => genre).join(" | ")}{" "}
+                  </Typography>
+                </Box>
+              )}
+              {currentGuessNumber > 2 && (
+                <Box display="flex" justifyContent="center" width="100%">
+                  <Typography variant="h5">
+                    {anime.episodios > 1
+                      ? `${anime.episodios} episódios`
+                      : `Filme`}
+                    ,{" "}
+                    {anime.popularidade !== " - "
+                      ? `${anime.popularidade}° título mais popular do Anilist`
+                      : "Não está entre os 500 mais populares do anilist"}
+                  </Typography>
+                </Box>
+              )}
+              {currentGuessNumber > 3 && (
+                <Box display="flex" justifyContent="center" width="100%">
+                  <Typography variant="h5">
+                    Tags: {anime.tags.map((tag) => tag).join(" | ")}
+                  </Typography>
+                </Box>
+              )}
+              {currentGuessNumber > 4 && (
+                <Box display="flex" justifyContent="center" width="100%">
+                  <Typography variant="h5">
+                    Notas: Filipe: {anime.score.Filipe} | Tuzzin:{" "}
+                    {anime.score.Tuzzin} | Taboada: {anime.score.Taboada}
+                  </Typography>
+                </Box>
+              )}
+              {currentGuessNumber > 5 && (
+                <Box display="flex" justifyContent="center" width="100%">
+                  <Typography
+                    variant="h5"
+                    dangerouslySetInnerHTML={{
+                      __html: `Descrição: ${anime.desc}`,
+                    }}
+                  ></Typography>
+                </Box>
+              )}
+
               <Box
                 display="flex"
                 flexDirection="column"

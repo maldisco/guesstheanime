@@ -1,5 +1,6 @@
 const express = require("express");
 const Anime = require("../models/anime");
+const { default: mongoose } = require("mongoose");
 
 const router = express.Router();
 
@@ -17,7 +18,22 @@ router.get("/", (req, res, next) => {
 router.get("/nomes", (req, res, next) => {
   Anime.find().then(
     (data) => {
-      const nomes = data.map((anime) => anime.nome);
+      var nomes = [];
+      var upperCasedCleanNomes = []
+      data.forEach(element => {
+        const cleanNome = element.nome.replace(/[^a-zA-Z ]/g, "").trim()
+
+        if(! upperCasedCleanNomes.includes(cleanNome.toUpperCase())){
+          upperCasedCleanNomes.push(cleanNome.toUpperCase())
+          nomes.push(element.nome)
+        }
+        
+        const cleanNome2 = element.nome2.replace(/[^a-zA-Z ]/g, "").trim()
+        if(! upperCasedCleanNomes.includes(cleanNome2.toUpperCase()) && element.nome2){
+          upperCasedCleanNomes.push(cleanNome2.toUpperCase())
+          nomes.push(element.nome2)
+        }
+      });
       res.status(200).json(nomes);
     },
     (err) => {
@@ -28,11 +44,14 @@ router.get("/nomes", (req, res, next) => {
 
 router.post("/aleatorio", (req, res, next) => {
   const excludedIds = req.body.excludedIds || [];
+  const excludedObjIds = excludedIds.map((id) => {
+    return new mongoose.Types.ObjectId(id);
+  });
   /* return a random anime */
   Anime.aggregate([
     {
       $match: {
-        _id: { $nin: excludedIds },
+        _id: { $nin: excludedObjIds },
       },
     },
     { $sample: { size: 1 } },

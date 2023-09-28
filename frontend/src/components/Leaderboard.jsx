@@ -15,14 +15,14 @@ function Leaderboard({ isOpen, onClose }) {
   const theme = useTheme();
   const alt = theme.palette.background.alt;
 
-  const oneWidth = `${(correctGuesses[1] / (maxGuesses || 1) || 0.02) * 100}%`;
-  const twoWidth = `${(correctGuesses[2] / (maxGuesses || 1) || 0.02) * 100}%`;
-  const threeWidth = `${
-    (correctGuesses[3] / (maxGuesses || 1) || 0.02) * 100
-  }%`;
-  const fourWidth = `${(correctGuesses[4] / (maxGuesses || 1) || 0.02) * 100}%`;
-  const fiveWidth = `${(correctGuesses[5] / (maxGuesses || 1) || 0.02) * 100}%`;
-  const sixWidth = `${(correctGuesses[6] / (maxGuesses || 1) || 0.02) * 100}%`;
+  const barWidths = {
+    1: `${(correctGuesses[1] / (maxGuesses || 1) || 0.02) * 100}%`,
+    2: `${(correctGuesses[2] / (maxGuesses || 1) || 0.02) * 100}%`,
+    3: `${(correctGuesses[3] / (maxGuesses || 1) || 0.02) * 100}%`,
+    4: `${(correctGuesses[4] / (maxGuesses || 1) || 0.02) * 100}%`,
+    5: `${(correctGuesses[5] / (maxGuesses || 1) || 0.02) * 100}%`,
+    6: `${(correctGuesses[6] / (maxGuesses || 1) || 0.02) * 100}%`,
+  };
 
   useEffect(() => {
     const wins = Object.values(correctGuesses).reduce(
@@ -30,7 +30,7 @@ function Leaderboard({ isOpen, onClose }) {
       0
     );
     setTotalWins(wins);
-    setWinPercentage(Math.floor((wins / totalGuesses)* 100));
+    setWinPercentage(Math.floor((wins / totalGuesses) * 100) || 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alreadyGuessed]);
 
@@ -41,6 +41,7 @@ function Leaderboard({ isOpen, onClose }) {
       </DialogTitle>
       <Box p="1rem" display="flex" flexDirection="column" gap="1rem">
         <FlexBetween padding="1rem 6%">
+          {/* Total de animes jogados */}
           <Box
             display="flex"
             flexDirection="column"
@@ -58,6 +59,7 @@ function Leaderboard({ isOpen, onClose }) {
             </Typography>
           </Box>
 
+          {/* Total de acertos */}
           <Box
             display="flex"
             flexDirection="column"
@@ -74,6 +76,8 @@ function Leaderboard({ isOpen, onClose }) {
               Acertos
             </Typography>
           </Box>
+
+          {/* % de vitória */}
           <Box
             display="flex"
             flexDirection="column"
@@ -91,48 +95,27 @@ function Leaderboard({ isOpen, onClose }) {
             </Typography>
           </Box>
         </FlexBetween>
-        <Box fullWidth display="flex" justifyContent="center" alignItems="center">
+
+        {/* Distribuição de acertos e barras */}
+        <Box
+          fullWidth
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
           <Typography fontWeight="bold" variant="h4">
             Distribuição de acertos
           </Typography>
         </Box>
 
-        <Box display="flex" gap="1rem">
-          <Typography>1</Typography>
-          <Box backgroundColor={alt} width={oneWidth}>
-            {correctGuesses[1]}
+        {Array.from({ length: 6 }, (_, index) => (
+          <Box display="flex" gap="1rem" key={index}>
+            <Typography>{index + 1}</Typography>
+            <Box backgroundColor={alt} width={barWidths[index + 1]}>
+              {correctGuesses[index + 1]}
+            </Box>
           </Box>
-        </Box>
-        <Box display="flex" gap="1rem">
-          <Typography>2</Typography>
-          <Box backgroundColor={alt} width={twoWidth}>
-            {correctGuesses[2]}
-          </Box>
-        </Box>
-        <Box display="flex" gap="1rem">
-          <Typography>3</Typography>
-          <Box backgroundColor={alt} width={threeWidth}>
-            {correctGuesses[3]}
-          </Box>
-        </Box>
-        <Box display="flex" gap="1rem">
-          <Typography>4</Typography>
-          <Box backgroundColor={alt} width={fourWidth}>
-            {correctGuesses[4]}
-          </Box>
-        </Box>
-        <Box display="flex" gap="1rem">
-          <Typography>5</Typography>
-          <Box backgroundColor={alt} width={fiveWidth}>
-            {correctGuesses[5]}
-          </Box>
-        </Box>
-        <Box display="flex" gap="1rem">
-          <Typography>6</Typography>
-          <Box backgroundColor={alt} width={sixWidth}>
-            {correctGuesses[6]}
-          </Box>
-        </Box>
+        ))}
       </Box>
     </Dialog>
   );

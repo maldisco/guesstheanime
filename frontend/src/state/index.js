@@ -13,7 +13,9 @@ const initialState = {
     6: 0,
   },
   guessNumber: 1,
-  guessPrevious: [],
+  previousGuesses: [],
+  finished: false,
+  correct: false
 };
 
 export const authSlice = createSlice({
@@ -42,8 +44,14 @@ export const authSlice = createSlice({
     setGuessNumber: (state, action) => {
       state.guessNumber = action.payload;
     },
-    setGuessPrevious: (state, action) => {
-      state.guessPrevious = action.payload;
+    setPreviousGuesses: (state, action) => {
+      state.previousGuesses = action.payload;
+    },
+    setFinished: (state, action) => {
+      state.finished = action.payload;
+    },
+    setCorrect: (state, action) => {
+      state.correct = action.payload;
     },
   },
 });
@@ -56,6 +64,8 @@ export const {
   setCorrectGuesses,
   resetGuesses,
   setGuessNumber,
-  setGuessPrevious
+  setPreviousGuesses,
+  setFinished,
+  setCorrect,
 } = authSlice.actions;
 export default authSlice.reducer;

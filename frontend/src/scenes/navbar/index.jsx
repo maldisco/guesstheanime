@@ -34,7 +34,7 @@ const NavBar = () => {
             },
           }}
         >
-          Adivinha o anime
+          Animezismo
         </Typography>
       </FlexBetween>
 

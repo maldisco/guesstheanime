@@ -1,14 +1,21 @@
-import AnimeInfoBox from "components/AnimeInfoBox";
+import InfoBox from "components/InfoBox";
 import { Box } from "@mui/material";
 
+/**
+ * Renders information about an anime.
+ * @param {Object} props - The component props.
+ * @param {number} props.guessNumber - The current guess number.
+ * @param {Object} props.current - The current anime object.
+ * @returns {JSX.Element} - The AnimeInformation component.
+ */
 const AnimeInformation = ({ guessNumber, current }) => {
   return (
     <>
-      <AnimeInfoBox title="Review" information={current.resumo} />
+      <InfoBox title="Review" information={current.resumo} />
       {guessNumber > 1 && (
         <Box display="flex" justifyContent="center" width="100%">
-          <AnimeInfoBox title="Estúdio" information={current.studio} />
-          <AnimeInfoBox
+          <InfoBox title="Estúdio" information={current.studio} />
+          <InfoBox
             title="Gêneros"
             information={current.generos.map((genre) => genre).join(" | ")}
           />
@@ -16,7 +23,7 @@ const AnimeInformation = ({ guessNumber, current }) => {
       )}
       {guessNumber > 2 && (
         <Box display="flex" justifyContent="center" width="100%">
-          <AnimeInfoBox
+          <InfoBox
             title="Formato"
             information={
               current.episodios > 1
@@ -24,7 +31,7 @@ const AnimeInformation = ({ guessNumber, current }) => {
                 : `Filme`
             }
           />
-          <AnimeInfoBox
+          <InfoBox
             title="Popularidade"
             information={
               current.popularidade !== "-"
@@ -35,16 +42,16 @@ const AnimeInformation = ({ guessNumber, current }) => {
         </Box>
       )}
       {guessNumber > 3 && (
-        <AnimeInfoBox title="Tags" information={current.tags.join(" | ")} />
+        <InfoBox title="Tags" information={current.tags.join(" | ")} />
       )}
       {guessNumber > 4 && (
-        <AnimeInfoBox
+        <InfoBox
           title="Notas"
           information={`Filipe: ${current.score.Filipe} | Tuzzin: ${current.score.Tuzzin} | Taboada: ${current.score.Taboada}`}
         />
       )}
       {guessNumber > 5 && (
-        <AnimeInfoBox
+        <InfoBox
           title="Sinopse"
           information={current.desc}
           innerHtml={true}

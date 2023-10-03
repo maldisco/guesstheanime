@@ -1,6 +1,14 @@
 import { Box, Typography } from "@mui/material";
 
-const AnimeInfoBox = ({ title, information, innerHtml = false }) => {
+/**
+ * A component that displays information in a box with a title.
+ * @param {Object} props - The props object.
+ * @param {string} props.title - The title of the box.
+ * @param {string} props.information - The information to be displayed in the box.
+ * @param {boolean} [props.innerHtml=false] - Whether the information should be rendered as inner HTML or not.
+ * @returns {JSX.Element} - The InfoBox component.
+ */
+const InfoBox = ({ title, information, innerHtml = false }) => {
   return (
     <Box
       display="flex"
@@ -25,4 +33,4 @@ const AnimeInfoBox = ({ title, information, innerHtml = false }) => {
   );
 };
 
-export default AnimeInfoBox;
+export default InfoBox;

@@ -17,11 +17,11 @@ const GuessInput = ({ onNameSelect, tryGuess, animeNames }) => {
       <Box>
         <Button
           variant="contained"
-          sx={{ mx: "10px" }}
+          sx={{ mx: "10px", fontWeight: "bold" }}
           size="large"
           onClick={() => tryGuess()}
         >
-          Responder
+          Guess
         </Button>
       </Box>
     </Box>

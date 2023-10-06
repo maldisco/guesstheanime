@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import Navbar from "scenes/navbar";
+import Footer from "scenes/footer";
 import AnimeQuiz from "widgets/AnimeQuiz";
 import PastGuesses from "widgets/PastGuesses";
+import PastTips from "widgets/PastTips";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
@@ -16,7 +18,7 @@ const HomePage = () => {
   } = useSelector((state) => state);
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <Navbar />
       <Box
         width="100%"
@@ -26,9 +28,11 @@ const HomePage = () => {
         justifyContent="flex-start"
       >
         <Box flexBasis="15%" maxWidth="15%">
-          <PastGuesses alreadyGuessed={alreadyGuessed} />
+          {alreadyGuessed.length > 0 && (
+            <PastGuesses alreadyGuessed={alreadyGuessed} />
+          )}
         </Box>
-        <Box flexBasis="50%" maxWidth="50%">
+        <Box flexBasis="60%" maxWidth="60%">
           <AnimeQuiz
             guessNumber={guessNumber}
             previousGuesses={previousGuesses}
@@ -39,6 +43,7 @@ const HomePage = () => {
           />
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };

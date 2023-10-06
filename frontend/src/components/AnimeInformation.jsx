@@ -14,9 +14,9 @@ const AnimeInformation = ({ guessNumber, current }) => {
       <InfoBox title="Review" information={current.resumo} />
       {guessNumber > 1 && (
         <Box display="flex" justifyContent="center" width="100%">
-          <InfoBox title="Estúdio" information={current.studio} />
+          <InfoBox title="Studio" information={current.studio} />
           <InfoBox
-            title="Gêneros"
+            title="Genres"
             information={current.generos.map((genre) => genre).join(" | ")}
           />
         </Box>
@@ -24,19 +24,19 @@ const AnimeInformation = ({ guessNumber, current }) => {
       {guessNumber > 2 && (
         <Box display="flex" justifyContent="center" width="100%">
           <InfoBox
-            title="Formato"
+            title="Format"
             information={
               current.episodios > 1
-                ? `Anime (${current.episodios} episódios)`
-                : `Filme`
+                ? `Anime (${current.episodios} episodes)`
+                : `Movie`
             }
           />
           <InfoBox
-            title="Popularidade"
+            title="Popularity"
             information={
               current.popularidade !== "-"
-                ? `${current.popularidade}° título mais popular do Anilist`
-                : "Não está entre os 500 mais populares do Anilist"
+                ? `${current.popularidade}th most popular title on Anilist`
+                : "Not among Anilist's 500 most popular"
             }
           />
         </Box>
@@ -46,13 +46,13 @@ const AnimeInformation = ({ guessNumber, current }) => {
       )}
       {guessNumber > 4 && (
         <InfoBox
-          title="Notas"
+          title="Scores"
           information={`Filipe: ${current.score.Filipe} | Tuzzin: ${current.score.Tuzzin} | Taboada: ${current.score.Taboada}`}
         />
       )}
       {guessNumber > 5 && (
         <InfoBox
-          title="Sinopse"
+          title="Synopsis"
           information={current.desc}
           innerHtml={true}
         />

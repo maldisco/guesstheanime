@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import Leaderboard from "components/Leaderboard";
 import { useState } from "react";
+import SakuraFlower from "images/sakura_flower.png";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -16,35 +17,37 @@ const NavBar = () => {
 
   const theme = useTheme();
   const dark = theme.palette.neutral.dark;
-  const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
-      <FlexBetween gap="1.75rem">
+      <FlexBetween
+        gap="0.5rem"
+        onClick={() => navigate("/")}
+        sx={{
+          "&:hover": {
+            cursor: "pointer",
+          },
+        }}
+      >
+        <img width="50px" height="auto" alt="sakura" src={SakuraFlower} />
         <Typography
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate("/")}
-          sx={{
-            "&:hover": {
-              color: primaryLight,
-              cursor: "pointer",
-            },
-          }}
         >
-          Animezismo
+          Guess the アニメ
         </Typography>
       </FlexBetween>
 
       <FlexBetween gap="2rem">
         <IconButton onClick={() => setIsLeaderboardOpen(true)}>
-          {theme.palette.mode === "dark" ? (
-            <LeaderboardIcon sx={{ fontSize: "25px" }} />
-          ) : (
-            <LeaderboardIcon sx={{ color: dark, fontSize: "25px" }} />
-          )}
+          <LeaderboardIcon
+            sx={{
+              color: theme.palette.mode === "dark" ? "default" : dark,
+              fontSize: "25px",
+            }}
+          />
         </IconButton>
         <IconButton onClick={() => dispatch(setMode())}>
           {theme.palette.mode === "dark" ? (

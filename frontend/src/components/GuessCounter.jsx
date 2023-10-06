@@ -38,7 +38,7 @@ const GuessCounter = ({ guessNumber, finished, correct, onSkip }) => {
         fontWeight="bold"
         disabled={finished}
       >
-        Pular
+        Skip
       </Typography>
     </Box>
   );

@@ -18,8 +18,8 @@ const initialState = {
   correct: false
 };
 
-export const authSlice = createSlice({
-  name: "auth",
+export const animeSlice = createSlice({
+  name: "anime",
   initialState,
   reducers: {
     setMode: (state) => {
@@ -67,5 +67,5 @@ export const {
   setPreviousGuesses,
   setFinished,
   setCorrect,
-} = authSlice.actions;
-export default authSlice.reducer;
+} = animeSlice.actions;
+export default animeSlice.reducer;

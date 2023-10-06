@@ -15,25 +15,36 @@ router.get("/", (req, res, next) => {
   );
 });
 
+function normalizeAndClean(str) {
+  if (!str) return null;
+  const normalized = str.replace(/[^a-zA-Z ]/g, "").trim().toLowerCase();
+  // Replace "x" with " ", and remove multiple spaces
+  return normalized.replace(/x/g, " ").replace(/ +/g, "");
+}
+
 router.get("/nomes", (req, res, next) => {
   Anime.find().then(
     (data) => {
       var nomes = [];
-      var upperCasedCleanNomes = []
+      var uniqueNames = new Set(); // Use a Set to ensure uniqueness
+      
       data.forEach(element => {
-        const cleanNome = element.nome.replace(/[^a-zA-Z ]/g, "").trim()
+        const cleanNome1 = normalizeAndClean(element.nome);
+        const cleanNome2 = element.nome2 ? normalizeAndClean(element.nome2) : null;
 
-        if(! upperCasedCleanNomes.includes(cleanNome.toUpperCase())){
-          upperCasedCleanNomes.push(cleanNome.toUpperCase())
-          nomes.push(element.nome)
+        // Add cleanNome1 if it's unique
+        if (cleanNome1 && !uniqueNames.has(cleanNome1)) {
+          uniqueNames.add(cleanNome1);
+          nomes.push(element.nome);
         }
-        
-        const cleanNome2 = element.nome2.replace(/[^a-zA-Z ]/g, "").trim()
-        if(! upperCasedCleanNomes.includes(cleanNome2.toUpperCase()) && element.nome2){
-          upperCasedCleanNomes.push(cleanNome2.toUpperCase())
-          nomes.push(element.nome2)
+
+        // Add cleanNome2 if it's unique
+        if (cleanNome2 && !uniqueNames.has(cleanNome2)) {
+          uniqueNames.add(cleanNome2);
+          nomes.push(element.nome2);
         }
       });
+
       res.status(200).json(nomes);
     },
     (err) => {

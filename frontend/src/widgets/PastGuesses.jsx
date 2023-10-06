@@ -11,7 +11,7 @@ import ClearIcon from "@mui/icons-material/Clear";
  */
 const PastGuesses = ({ alreadyGuessed }) => {
   return (
-    <WidgetWrapper height="100%">
+    <WidgetWrapper height="70vh">
       <Box display="flex" flexDirection="column" overflow="auto">
         {alreadyGuessed
           .slice()
@@ -28,8 +28,11 @@ const PastGuesses = ({ alreadyGuessed }) => {
               >
                 {anime.nome}
               </Typography>
-              {isCorrect && <CheckIcon sx={{ color: "green" }} />}
-              {!isCorrect && <ClearIcon sx={{ color: "red" }} />}
+              {isCorrect ? (
+                <CheckIcon sx={{ color: "green" }} />
+              ) : (
+                <ClearIcon sx={{ color: "red" }} />
+              )}
             </Box>
           ))}
       </Box>

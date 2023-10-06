@@ -30,7 +30,14 @@ import { useState, useEffect } from "react";
  * @param {boolean} props.correct - A flag indicating if the current guess is correct.
  * @returns {JSX.Element} - The JSX element representing the AnimeQuiz component.
  */
-const AnimeQuiz = ({guessNumber, previousGuesses, current, alreadyGuessed, finished, correct}) => {
+const AnimeQuiz = ({
+  guessNumber,
+  previousGuesses,
+  current,
+  alreadyGuessed,
+  finished,
+  correct,
+}) => {
   const dispatch = useDispatch();
 
   // State variables
@@ -140,12 +147,12 @@ const AnimeQuiz = ({guessNumber, previousGuesses, current, alreadyGuessed, finis
   return (
     <>
       {!isLoading && (
-        <WidgetWrapper display="flex" flexDirection="column" gap="1rem">
+        <WidgetWrapper display="flex" flexDirection="column" gap="1rem" height="100%">
           {/* Anime cover image (or its placeholder) */}
           <AnimeImage image={current.capa} finished={finished} />
 
           <Box display="flex" justifyContent="center" width="100%">
-            <Typography variant="h5">Lançamento: {current.ano}</Typography>
+            <Typography variant="h5">Release: {current.ano}</Typography>
           </Box>
 
           {/* Number of guesses and skip button */}

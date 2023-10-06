@@ -20,14 +20,15 @@ const InfoBox = ({ title, information, innerHtml = false }) => {
       <Typography variant="h5" fontWeight="bold">
         {title}
       </Typography>
-      {!innerHtml && <Typography variant="h5">{information}</Typography>}
-      {innerHtml && (
+      {innerHtml ? (
         <Typography
           variant="h5"
           dangerouslySetInnerHTML={{
             __html: information,
           }}
         />
+      ) : (
+        <Typography variant="h5">{information}</Typography>
       )}
     </Box>
   );

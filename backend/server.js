@@ -62,7 +62,7 @@ function normalizeAndClean(str) {
   return normalized.replace(/x/g, " ").replace(/ +/g, "");
 }
 
-app.get("api/animes/nomes", (req, res, next) => {
+app.get("/api/animes/nomes", (req, res, next) => {
   Anime.find().then(
     (data) => {
       var nomes = [];
@@ -95,7 +95,7 @@ app.get("api/animes/nomes", (req, res, next) => {
   );
 });
 
-app.post("api/animes/aleatorio", (req, res, next) => {
+app.post("/api/animes/aleatorio", (req, res, next) => {
   const excludedIds = req.body.excludedIds || [];
   const excludedObjIds = excludedIds.map((id) => {
     return new mongoose.Types.ObjectId(id);

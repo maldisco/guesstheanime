@@ -53,6 +53,10 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 app.use("/api/animes", animeRoutes);
 
+app.get('/api/teste', (req, res) => {
+  res.end(`teste se funciona`);
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });

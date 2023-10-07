@@ -13,7 +13,6 @@ const Anime = require("./models/anime"); // Replace with the actual path to your
 const animeRoutes = require("./routes/animes");
 
 const app = express();
-const port = 3001;
 
 dotenv.config();
 
@@ -54,6 +53,6 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 app.use("/api/animes", animeRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port ${process.env.PORT}`);
 });

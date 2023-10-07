@@ -28,6 +28,7 @@ const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
+  devTools: false,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

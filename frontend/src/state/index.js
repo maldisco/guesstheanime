@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "light",
+  animeList: [],
   current: "",
+  currentReview: "",
   alreadyGuessed: [],
   correctGuesses: {
     1: 0,
@@ -15,7 +17,7 @@ const initialState = {
   guessNumber: 1,
   previousGuesses: [],
   finished: false,
-  correct: false
+  correct: false,
 };
 
 export const animeSlice = createSlice({
@@ -25,8 +27,14 @@ export const animeSlice = createSlice({
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
+    setAnimeList: (state, action) => {
+      state.animeList = action.payload;
+    },
     setCurrent: (state, action) => {
       state.current = action.payload;
+    },
+    setCurrentReview: (state, action) => {
+      state.currentReview = action.payload;
     },
     setAlreadyGuessed: (state, action) => {
       state.alreadyGuessed = action.payload;
@@ -38,8 +46,16 @@ export const animeSlice = createSlice({
       state.correctGuesses[action.payload] += 1;
     },
     resetGuesses: (state) => {
-      state.guessPrevious = initialState.guessPrevious;
+      state.previousGuesses = initialState.previousGuesses;
       state.guessNumber = initialState.guessNumber;
+      state.finished = initialState.finished;
+      state.correct = initialState.correct;
+    },
+    resetUser: (state) => {
+      state.alreadyGuessed = initialState.alreadyGuessed;
+      state.correctGuesses = initialState.correctGuesses;
+      state.animeList = initialState.animeList;
+      state.current = initialState.current;
     },
     setGuessNumber: (state, action) => {
       state.guessNumber = action.payload;
@@ -58,14 +74,17 @@ export const animeSlice = createSlice({
 
 export const {
   setMode,
+  setAnimeList,
   setCurrent,
   setAlreadyGuessed,
   addCorrectGuess,
   setCorrectGuesses,
   resetGuesses,
+  resetUser,
   setGuessNumber,
   setPreviousGuesses,
   setFinished,
   setCorrect,
+  setCurrentReview,
 } = animeSlice.actions;
 export default animeSlice.reducer;

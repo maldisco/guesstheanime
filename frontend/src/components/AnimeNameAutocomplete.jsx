@@ -4,7 +4,7 @@ import { Autocomplete, TextField } from '@mui/material';
 
 function AnimeNameAutocomplete({ animeNames, onNameSelect}) {
     const [inputValue, setInputValue] = useState('');
-  
+
     return (
       <Autocomplete
         id="anime-name-autocomplete"

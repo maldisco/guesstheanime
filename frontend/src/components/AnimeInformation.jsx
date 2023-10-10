@@ -8,10 +8,33 @@ import { Box } from "@mui/material";
  * @param {Object} props.current - The current anime object.
  * @returns {JSX.Element} - The AnimeInformation component.
  */
-const AnimeInformation = ({ guessNumber, current }) => {
+const AnimeInformation = ({ guessNumber, current, currentReview }) => {
+  const getScores = (scores) => {
+    return Object.entries(scores)
+      .map(([username, score]) => {
+        return `${username}: ${score}`;
+      })
+      .join(" | ");
+  };
+
+  const getPopularity = (popularity) => {
+    if (popularity === "-") return "501-";
+
+    popularity = parseInt(popularity);
+    if (popularity <= 20) {
+      return "1-20";
+    } else if (popularity <= 50) {
+      return "21-50";
+    } else if (popularity <= 100) {
+      return "51-100";
+    } else {
+      return "101-500";
+    }
+  };
+
   return (
     <>
-      <InfoBox title="Review" information={current.resumo} />
+      <InfoBox title="Review" information={currentReview} />
       {guessNumber > 1 && (
         <Box display="flex" justifyContent="center" width="100%">
           <InfoBox title="Studio" information={current.studio} />
@@ -27,17 +50,13 @@ const AnimeInformation = ({ guessNumber, current }) => {
             title="Format"
             information={
               current.episodios > 1
-                ? `Anime (${current.episodios} episodes)`
+                ? `${current.formato} (${current.episodios} episodes)`
                 : `Movie`
             }
           />
           <InfoBox
-            title="Popularity"
-            information={
-              current.popularidade !== "-"
-                ? `${current.popularidade}th most popular title on Anilist`
-                : "Not among Anilist's 500 most popular"
-            }
+            title={`Popularity among ${current.formato} (Anilist)`}
+            information={getPopularity(current.popularidade)}
           />
         </Box>
       )}
@@ -45,17 +64,7 @@ const AnimeInformation = ({ guessNumber, current }) => {
         <InfoBox title="Tags" information={current.tags.join(" | ")} />
       )}
       {guessNumber > 4 && (
-        <InfoBox
-          title="Scores"
-          information={`Filipe: ${current.score.Filipe} | Tuzzin: ${current.score.Tuzzin} | Taboada: ${current.score.Taboada}`}
-        />
-      )}
-      {guessNumber > 5 && (
-        <InfoBox
-          title="Synopsis"
-          information={current.desc}
-          innerHtml={true}
-        />
+        <InfoBox title="Scores" information={getScores(current.score)} />
       )}
     </>
   );

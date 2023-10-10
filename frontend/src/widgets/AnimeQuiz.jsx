@@ -7,6 +7,8 @@ import {
   setPreviousGuesses,
   setFinished,
   setCorrect,
+  resetGuesses,
+  setCurrentReview,
 } from "state";
 import WidgetWrapper from "components/WidgetWrapper";
 import AnimeImage from "components/AnimeImage";
@@ -15,7 +17,6 @@ import ResultFeedback from "components/ResultFeedback";
 import AnimeInformation from "components/AnimeInformation";
 import PreviousGuesses from "components/PreviousGuesses";
 import GuessInput from "components/GuessInput";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -37,6 +38,8 @@ const AnimeQuiz = ({
   alreadyGuessed,
   finished,
   correct,
+  animeList,
+  currentReview
 }) => {
   const dispatch = useDispatch();
 
@@ -45,30 +48,68 @@ const AnimeQuiz = ({
   const [guess, setGuess] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const getAnime = async () => {
+  const normalizeAndClean = (str) => {
+    if (!str) return null;
+    const normalized = str
+      .replace(/[^a-zA-Z ]/g, "")
+      .trim()
+      .toLowerCase();
+    // Replace "x" with " ", and remove multiple spaces
+    return normalized.replace(/x/g, " ").replace(/ +/g, "");
+  };
+
+  const getUniqueNames = (animes) => {
+    var nomes = [];
+    var uniqueNames = new Set(); // Use a Set to ensure uniqueness
+
+    animes.forEach((element) => {
+      const cleanNome1 = normalizeAndClean(element.nome);
+      const cleanNome2 = element.nome2
+        ? normalizeAndClean(element.nome2)
+        : null;
+
+      // Add cleanNome1 if it's unique
+      if (cleanNome1 && !uniqueNames.has(cleanNome1)) {
+        uniqueNames.add(cleanNome1);
+        nomes.push(element.nome);
+      }
+
+      // Add cleanNome2 if it's unique
+      if (cleanNome2 && !uniqueNames.has(cleanNome2)) {
+        uniqueNames.add(cleanNome2);
+        nomes.push(element.nome2);
+      }
+    });
+
+    return nomes;
+  };
+
+  const getRandomAnime = (possibleAnime) => {
+    const randomIndex = Math.floor(Math.random() * possibleAnime.length);
+    return possibleAnime[randomIndex];
+  };
+
+  const start = async () => {
+    const alreadyGuessedAnimeNames = alreadyGuessed.map(
+      (anime) => anime.anime
+    );
+    const possibleAnime = animeList.filter(
+      (anime) => !alreadyGuessedAnimeNames.includes(anime.nome)
+    );
+
     // if there is no anime in cache
     if (!current) {
-      // id of all animes already guessed
-      const excludedIds = alreadyGuessed.map(
-        (guessedAnime) => guessedAnime.anime._id
-      );
-
       // Get a new anime
-      axios
-        .post(
-          "http://localhost:3001/api/animes/aleatorio",
-          JSON.stringify({ excludedIds: excludedIds }),
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .then((response) => {
-          dispatch(setCurrent(response.data));
-        });
+      const randomAnime = getRandomAnime(possibleAnime);
+      dispatch(setCurrent(randomAnime));
+      const randomReview = randomAnime.reviews[
+        Math.floor(Math.random() * randomAnime.reviews.length)
+      ];
+      dispatch(setCurrentReview(randomReview));
     }
 
     // Get all anime names for the autocomplete
-    axios.get("http://localhost:3001/api/animes/nomes").then((response) => {
-      setAnimeNames(response.data);
-    });
+    setAnimeNames(getUniqueNames(possibleAnime));
 
     setIsLoading(false);
   };
@@ -78,6 +119,8 @@ const AnimeQuiz = ({
   };
 
   const tryGuess = async () => {
+    if (!guess) return;
+
     if (guess === current.nome || guess === current.nome2) {
       // Save the correct guess number to cache
       dispatch(addCorrectGuess(guessNumber));
@@ -93,7 +136,7 @@ const AnimeQuiz = ({
       // Add the current guess to the list of previous guesses and save it in cache
       dispatch(setPreviousGuesses([...previousGuesses, guess]));
       // set finish flag
-      dispatch(setFinished(guessNumber === 6));
+      dispatch(setFinished(guessNumber === 5));
     }
   };
 
@@ -103,53 +146,59 @@ const AnimeQuiz = ({
     {
       // Add the current anime and if user got it to the list of already guessed animes
       const guessedAnime = {
-        anime: current,
+        anime: current.nome,
         isCorrect: correct,
       };
-      dispatch(setAlreadyGuessed([...alreadyGuessed, guessedAnime]));
-
-      const excludedIds = alreadyGuessed.map(
-        (guessedAnime) => guessedAnime.anime._id
-      );
+      // remove the first animes of the list until there is only 10
+      const updatedAlreadyGuessed =[...alreadyGuessed, guessedAnime]
+      dispatch(setAlreadyGuessed(updatedAlreadyGuessed));
 
       // Get a new anime
-      axios
-        .post(
-          "http://localhost:3001/api/animes/aleatorio",
-          JSON.stringify({ excludedIds: excludedIds }),
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .then((response) => dispatch(setCurrent(response.data)));
+      const alreadyGuessedAnimeNames = alreadyGuessed.map(
+        (anime) => anime.anime
+      );
+      const possibleAnime = animeList.filter(
+        (anime) => !alreadyGuessedAnimeNames.includes(anime.nome)
+      );
+      setAnimeNames(getUniqueNames(possibleAnime));
+      const randomAnime = getRandomAnime(possibleAnime);
+      dispatch(setCurrent(randomAnime));
+      const randomReview = randomAnime.reviews[
+        Math.floor(Math.random() * randomAnime.reviews.length)
+      ];
+      dispatch(setCurrentReview(randomReview));
 
       setGuess("");
-      dispatch(setCorrect(false));
-      dispatch(setFinished(false));
-      dispatch(setGuessNumber(1));
-      dispatch(setPreviousGuesses([]));
+      dispatch(resetGuesses());
     }
     setIsLoading(false);
   };
 
   const skipGuess = async () => {
-    if (guessNumber <= 6) {
+    if (guessNumber <= 5) {
       // Add 1 to the current guess number and save it in cache
       dispatch(setGuessNumber(guessNumber + 1));
       // set finish flag
-      dispatch(setFinished(guessNumber === 6));
+      dispatch(setFinished(guessNumber === 5));
     }
   };
 
   useEffect(() => {
-    getAnime();
+    start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       {!isLoading && (
-        <WidgetWrapper display="flex" flexDirection="column" gap="1rem" height="100%">
+        <WidgetWrapper
+          display="flex"
+          flexDirection="column"
+          gap="1rem"
+          height="100%"
+        >
           {/* Anime cover image (or its placeholder) */}
-          <AnimeImage image={current.capa} finished={finished} />
+          <AnimeImage image={current.cover} finished={finished} />
 
           <Box display="flex" justifyContent="center" width="100%">
             <Typography variant="h5">Release: {current.ano}</Typography>
@@ -188,6 +237,7 @@ const AnimeQuiz = ({
               finished={finished}
               guessNumber={guessNumber}
               current={current}
+              currentReview={currentReview}
             />
           )}
 

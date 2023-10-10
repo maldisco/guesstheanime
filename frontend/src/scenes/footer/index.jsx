@@ -1,4 +1,4 @@
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Box } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
@@ -7,11 +7,13 @@ const Footer = () => {
   const twitterProfileUrl = "https://twitter.com/maldisco_";
 
   return (
-    <FlexBetween
+    <Box
       backgroundColor={theme.palette.background.alt}
       padding="1rem 6%"
       marginTop="auto"
       display="flex"
+      justifyContent="center"
+      alignItems="center"
     >
       <FlexBetween gap="1rem">
         <a href={twitterProfileUrl} target="_blank" rel="noopener noreferrer">
@@ -22,9 +24,9 @@ const Footer = () => {
             }}
           />
         </a>
-        <Typography>@maldisco_</Typography>
+        <Typography>sousaf.filipe@gmail.com</Typography>
       </FlexBetween>
-    </FlexBetween>
+    </Box>
   );
 };
 

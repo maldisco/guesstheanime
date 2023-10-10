@@ -15,13 +15,13 @@ const AnimeImage = ({ image, size = "35", finished }) => {
         <img
           style={imageSizeStyle}
           alt="anime"
-          src={`http://localhost:3001/assets/${image}`}
+          src={image}
         />
       ) : (
         <Box
           width="253px"
           height="358px"
-          backgroundColor={theme.palette.background.default}
+          backgroundColor={theme.palette.primary.main}
           borderRadius="1rem"
         />
       )}

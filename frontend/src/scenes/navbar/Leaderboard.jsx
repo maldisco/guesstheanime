@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, useTheme } from "@mui/material";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../../components/FlexBetween";
 import { Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ function Leaderboard({ isOpen, onClose }) {
   const [totalWins, setTotalWins] = useState(0);
 
   const theme = useTheme();
-  const alt = theme.palette.background.alt;
+  const alt = theme.palette.primary.light;
 
   const barWidths = {
     1: `${(correctGuesses[1] / (maxGuesses || 1) || 0.02) * 100}%`,
@@ -37,7 +37,7 @@ function Leaderboard({ isOpen, onClose }) {
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
       <DialogTitle>
-        <Typography variant="h1">Estatísticas</Typography>
+        <Typography variant="h1">Statistics</Typography>
       </DialogTitle>
       <Box p="1rem" display="flex" flexDirection="column" gap="1rem">
         <FlexBetween padding="1rem 6%">
@@ -55,7 +55,7 @@ function Leaderboard({ isOpen, onClose }) {
               fontWeight="bold"
               fontSize="clamp(0.5rem, 1rem, 1.15rem)"
             >
-              Total
+              Total Guessed
             </Typography>
           </Box>
 
@@ -73,7 +73,7 @@ function Leaderboard({ isOpen, onClose }) {
               fontWeight="bold"
               fontSize="clamp(0.5rem, 1rem, 1.15rem)"
             >
-              Acertos
+              Total Wins
             </Typography>
           </Box>
 
@@ -91,7 +91,7 @@ function Leaderboard({ isOpen, onClose }) {
               fontWeight="bold"
               fontSize="clamp(0.5rem, 1rem, 1.15rem)"
             >
-              % Vitória
+              % Win
             </Typography>
           </Box>
         </FlexBetween>
@@ -104,14 +104,14 @@ function Leaderboard({ isOpen, onClose }) {
           alignItems="center"
         >
           <Typography fontWeight="bold" variant="h4">
-            Distribuição de acertos
+            Distribution of correct guesses
           </Typography>
         </Box>
 
         {Array.from({ length: 6 }, (_, index) => (
           <Box display="flex" gap="1rem" key={index}>
             <Typography>{index + 1}</Typography>
-            <Box backgroundColor={alt} width={barWidths[index + 1]}>
+            <Box backgroundColor={alt} width={barWidths[index + 1]} px=".1rem">
               {correctGuesses[index + 1]}
             </Box>
           </Box>

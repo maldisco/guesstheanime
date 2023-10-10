@@ -2,8 +2,7 @@ import { Box } from "@mui/material";
 import Navbar from "scenes/navbar";
 import Footer from "scenes/footer";
 import AnimeQuiz from "widgets/AnimeQuiz";
-import PastGuesses from "widgets/PastGuesses";
-import PastTips from "widgets/PastTips";
+import Register from "scenes/register.jsx";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
@@ -15,32 +14,35 @@ const HomePage = () => {
     alreadyGuessed,
     finished,
     correct,
+    animeList,
+    currentReview,
   } = useSelector((state) => state);
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
-      <Navbar />
+      <Navbar animeList={animeList}/>
       <Box
         width="100%"
         padding="2rem 6%"
         display="flex"
         gap="5rem"
-        justifyContent="flex-start"
+        justifyContent="center"
       >
-        <Box flexBasis="15%" maxWidth="15%">
-          {alreadyGuessed.length > 0 && (
-            <PastGuesses alreadyGuessed={alreadyGuessed} />
-          )}
-        </Box>
         <Box flexBasis="60%" maxWidth="60%">
-          <AnimeQuiz
-            guessNumber={guessNumber}
-            previousGuesses={previousGuesses}
-            current={current}
-            alreadyGuessed={alreadyGuessed}
-            finished={finished}
-            correct={correct}
-          />
+          {animeList.length > 0 ? (
+            <AnimeQuiz
+              guessNumber={guessNumber}
+              previousGuesses={previousGuesses}
+              current={current}
+              currentReview={currentReview}
+              alreadyGuessed={alreadyGuessed}
+              finished={finished}
+              correct={correct}
+              animeList={animeList}
+            />
+          ) : (
+            <Register />
+          )}
         </Box>
       </Box>
       <Footer />

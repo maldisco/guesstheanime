@@ -5,7 +5,7 @@ const GuessCounter = ({ guessNumber, finished, correct, onSkip }) => {
 
   return (
     <Box display="flex" justifyContent="center" width="100%" gap="1rem">
-      {Array.from({ length: 6 }, (_, index) => (
+      {Array.from({ length: 5 }, (_, index) => (
         <Typography
           sx={{
             backgroundColor:

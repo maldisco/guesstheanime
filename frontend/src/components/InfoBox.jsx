@@ -8,7 +8,7 @@ import { Box, Typography } from "@mui/material";
  * @param {boolean} [props.innerHtml=false] - Whether the information should be rendered as inner HTML or not.
  * @returns {JSX.Element} - The InfoBox component.
  */
-const InfoBox = ({ title, information, innerHtml = false }) => {
+const InfoBox = ({ title, information }) => {
   return (
     <Box
       display="flex"
@@ -20,16 +20,8 @@ const InfoBox = ({ title, information, innerHtml = false }) => {
       <Typography variant="h5" fontWeight="bold">
         {title}
       </Typography>
-      {innerHtml ? (
-        <Typography
-          variant="h5"
-          dangerouslySetInnerHTML={{
-            __html: information,
-          }}
-        />
-      ) : (
-        <Typography variant="h5">{information}</Typography>
-      )}
+
+      <Typography variant="h5">{information}</Typography>
     </Box>
   );
 };

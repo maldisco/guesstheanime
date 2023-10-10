@@ -11,7 +11,7 @@ const PreviousGuesses = ({ previousGuesses }) => {
       width="100%"
       alignItems="center"
     >
-      {previousGuesses.map((guess) => (
+      {previousGuesses.map((guess, index) => (
         <Typography
           sx={{
             backgroundColor: theme.palette.neutral.light,
@@ -21,7 +21,7 @@ const PreviousGuesses = ({ previousGuesses }) => {
           }}
           fontWeight="bold"
           textAlign="center"
-          key={guess}
+          key={index}
         >
           {guess}
         </Typography>

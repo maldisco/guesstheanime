@@ -26,7 +26,7 @@ const NavBar = ({animeList}) => {
   const alt = theme.palette.background.alt;
 
   return (
-    <FlexBetween padding="1rem" backgroundColor={alt}>
+    <FlexBetween padding="1rem" backgroundColor={alt} position="fixed" top="0" width="100vw">
       <FlexBetween
         gap="0.5rem"
         onClick={() => navigate("/")}

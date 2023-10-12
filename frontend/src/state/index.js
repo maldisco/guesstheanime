@@ -4,7 +4,6 @@ const initialState = {
   mode: "light",
   animeList: [],
   current: "",
-  currentReview: "",
   alreadyGuessed: [],
   correctGuesses: {
     1: 0,
@@ -32,9 +31,6 @@ export const animeSlice = createSlice({
     },
     setCurrent: (state, action) => {
       state.current = action.payload;
-    },
-    setCurrentReview: (state, action) => {
-      state.currentReview = action.payload;
     },
     setAlreadyGuessed: (state, action) => {
       state.alreadyGuessed = action.payload;
@@ -85,6 +81,5 @@ export const {
   setPreviousGuesses,
   setFinished,
   setCorrect,
-  setCurrentReview,
 } = animeSlice.actions;
 export default animeSlice.reducer;

@@ -8,7 +8,6 @@ import {
   setFinished,
   setCorrect,
   resetGuesses,
-  setCurrentReview,
 } from "state";
 import WidgetWrapper from "components/WidgetWrapper";
 import AnimeImage from "components/AnimeImage";
@@ -39,7 +38,6 @@ const AnimeQuiz = ({
   finished,
   correct,
   animeList,
-  currentReview
 }) => {
   const dispatch = useDispatch();
 
@@ -90,9 +88,7 @@ const AnimeQuiz = ({
   };
 
   const start = async () => {
-    const alreadyGuessedAnimeNames = alreadyGuessed.map(
-      (anime) => anime.anime
-    );
+    const alreadyGuessedAnimeNames = alreadyGuessed.map((anime) => anime.anime);
     const possibleAnime = animeList.filter(
       (anime) => !alreadyGuessedAnimeNames.includes(anime.nome)
     );
@@ -102,10 +98,6 @@ const AnimeQuiz = ({
       // Get a new anime
       const randomAnime = getRandomAnime(possibleAnime);
       dispatch(setCurrent(randomAnime));
-      const randomReview = randomAnime.reviews[
-        Math.floor(Math.random() * randomAnime.reviews.length)
-      ];
-      dispatch(setCurrentReview(randomReview));
     }
 
     // Get all anime names for the autocomplete
@@ -150,7 +142,7 @@ const AnimeQuiz = ({
         isCorrect: correct,
       };
       // remove the first animes of the list until there is only 10
-      const updatedAlreadyGuessed =[...alreadyGuessed, guessedAnime]
+      const updatedAlreadyGuessed = [...alreadyGuessed, guessedAnime];
       dispatch(setAlreadyGuessed(updatedAlreadyGuessed));
 
       // Get a new anime
@@ -163,10 +155,6 @@ const AnimeQuiz = ({
       setAnimeNames(getUniqueNames(possibleAnime));
       const randomAnime = getRandomAnime(possibleAnime);
       dispatch(setCurrent(randomAnime));
-      const randomReview = randomAnime.reviews[
-        Math.floor(Math.random() * randomAnime.reviews.length)
-      ];
-      dispatch(setCurrentReview(randomReview));
 
       setGuess("");
       dispatch(resetGuesses());
@@ -197,14 +185,12 @@ const AnimeQuiz = ({
           gap="1rem"
           height="100%"
         >
-          {/* Anime cover image (or its placeholder) */}
           <AnimeImage image={current.cover} finished={finished} />
 
           <Box display="flex" justifyContent="center" width="100%">
             <Typography variant="h5">Release: {current.ano}</Typography>
           </Box>
 
-          {/* Number of guesses and skip button */}
           <GuessCounter
             finished={finished}
             correct={correct}
@@ -212,7 +198,6 @@ const AnimeQuiz = ({
             onSkip={skipGuess}
           />
 
-          {/* Result feedback and next button */}
           {finished && (
             <ResultFeedback
               finished={finished}
@@ -222,7 +207,6 @@ const AnimeQuiz = ({
             />
           )}
 
-          {/* Answer box and button */}
           {!finished && (
             <GuessInput
               onNameSelect={selectName}
@@ -231,17 +215,14 @@ const AnimeQuiz = ({
             />
           )}
 
-          {/* Anime information */}
           {!finished && (
             <AnimeInformation
               finished={finished}
               guessNumber={guessNumber}
               current={current}
-              currentReview={currentReview}
             />
           )}
 
-          {/* List of previous guesses */}
           <PreviousGuesses previousGuesses={previousGuesses} />
         </WidgetWrapper>
       )}

@@ -25,8 +25,8 @@ const HomePage = () => {
         width="100%"
         padding="2rem 6%"
         display="flex"
-        gap="5rem"
         justifyContent="center"
+        mt="5rem"
       >
         <Box flexBasis="60%" maxWidth="60%">
           {animeList.length > 0 ? (

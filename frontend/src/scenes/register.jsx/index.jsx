@@ -4,62 +4,63 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAnimeList } from "state";
 
-const Register = () => {
-  const query = `
-    query ($id: Int, $name: String) {
-      MediaListCollection(userId: $id, userName: $name, type: ANIME) {
-        lists {
-          name
-          entries {
-            media {
-              title {
-                english
-                romaji
-              }
-              format
-              seasonYear
-              season
-              description
-              genres
-              episodes
-              averageScore
-              popularity
-              tags {
+const query = `
+query ($id: Int, $name: String) {
+  MediaListCollection(userId: $id, userName: $name, type: ANIME) {
+    lists {
+      name
+      entries {
+        media {
+          title {
+            english
+            romaji
+          }
+          format
+          seasonYear
+          season
+          description
+          genres
+          episodes
+          averageScore
+          popularity
+          tags {
+            name
+          }
+          reviews(sort: RATING) {
+            nodes {
+              summary
+            }
+          }
+          studios(isMain: true) {
+            edges {
+              isMain
+              node {
+                id
                 name
               }
-              reviews(sort: RATING) {
-                nodes {
-                  summary
-                }
-              }
-              studios(isMain: true) {
-                edges {
-                  isMain
-                  node {
-                    id
-                    name
-                  }
-                }
-              }
-              coverImage {
-                large
-              }
-              rankings {
-                rank
-                context
-              }
             }
-            score
-            user {
-              mediaListOptions {
-                scoreFormat
-              }
-            }
+          }
+          coverImage {
+            large
+          }
+          rankings {
+            rank
+            context
+          }
+        }
+        score
+        user {
+          mediaListOptions {
+            scoreFormat
           }
         }
       }
     }
-    `;
+  }
+}
+`;
+
+const Register = () => {
   const [usernames, setUsernames] = useState("");
   const [isValidUsername, setIsValidUsername] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -165,7 +166,6 @@ const Register = () => {
     const animelist = {};
     const alreadyAdded = [];
 
-    
     for (const [user, userData] of Object.entries(data)) {
       for (const list of userData.data.MediaListCollection.lists) {
         if (list.name !== "Planning") {
@@ -204,20 +204,12 @@ const Register = () => {
               );
               anime["tags"] = entry.media.tags.map((tag) => tag.name);
 
-              // get 10 reviews or all available
-              anime["reviews"] = [];
-              for (const review of entry.media.reviews.nodes) {
-                if (anime["reviews"].length >= 5) {
-                  break;
-                }
-                anime["reviews"].push(
-                  filter_names(
-                    review.summary,
-                    entry.media.title.romaji,
-                    entry.media.title.english
-                  )
-                );
-              }
+              // get 5 reviews or all available
+              anime["review"] = filter_names(
+                entry.media.reviews.nodes[0].summary,
+                entry.media.title.romaji,
+                entry.media.title.english
+              );
               anime["popularidade"] = "-";
               for (const ranking of entry.media.rankings) {
                 if (ranking.context === "most popular all time") {
@@ -255,10 +247,10 @@ const Register = () => {
       >
         <Typography variant="h1">Type your Anilist username</Typography>
         <Typography variant="h5" textAlign="center">
-          We will only use your completed and dropped animes.
+          We will only use YOUR animes.
           <br />
-          You can also use many usernames if you are playing with friend! Just
-          add a comma between each.
+          You can also use many list if you are playing with friends! Just add a
+          comma between each username.
         </Typography>
         <img alt="Example username" src="example.png" />
         {!isValidUsername && (

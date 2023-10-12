@@ -1,5 +1,6 @@
 import InfoBox from "components/InfoBox";
 import { Box } from "@mui/material";
+import SpeechBubble from "./speechbubble";
 
 /**
  * Renders information about an anime.
@@ -8,7 +9,7 @@ import { Box } from "@mui/material";
  * @param {Object} props.current - The current anime object.
  * @returns {JSX.Element} - The AnimeInformation component.
  */
-const AnimeInformation = ({ guessNumber, current, currentReview }) => {
+const AnimeInformation = ({ guessNumber, current }) => {
   const getScores = (scores) => {
     return Object.entries(scores)
       .map(([username, score]) => {
@@ -34,7 +35,7 @@ const AnimeInformation = ({ guessNumber, current, currentReview }) => {
 
   return (
     <>
-      <InfoBox title="Review" information={currentReview} />
+      <InfoBox title="Review" information={current.review} />
       {guessNumber > 1 && (
         <Box display="flex" justifyContent="center" width="100%">
           <InfoBox title="Studio" information={current.studio} />

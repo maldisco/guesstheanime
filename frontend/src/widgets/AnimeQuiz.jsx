@@ -160,24 +160,22 @@ const AnimeQuiz = ({
   const tryGuess = async () => {
     if (!guess) return;
     setIsProcessingGuess(true);
-    {
-      if (guess === current.nome || guess === current.nome2) {
-        // Save the correct guess number to cache
-        dispatch(addCorrectGuess(guessNumber));
-        // set correct flag
-        dispatch(setCorrect(true));
-        // set finish flag
-        dispatch(setFinished(true));
-        // Save current list of previous guesses to cache
-        dispatch(setPreviousGuesses([...previousGuesses, guess]));
-      } else {
-        // Add 1 to the current guess number and save it in cache
-        dispatch(setGuessNumber(guessNumber + 1));
-        // Add the current guess to the list of previous guesses and save it in cache
-        dispatch(setPreviousGuesses([...previousGuesses, guess]));
-        // set finish flag
-        dispatch(setFinished(guessNumber === 5));
-      }
+    if (guess === current.nome || guess === current.nome2) {
+      // Save the correct guess number to cache
+      dispatch(addCorrectGuess(guessNumber));
+      // set correct flag
+      dispatch(setCorrect(true));
+      // set finish flag
+      dispatch(setFinished(true));
+      // Save current list of previous guesses to cache
+      dispatch(setPreviousGuesses([...previousGuesses, guess]));
+    } else {
+      // Add 1 to the current guess number and save it in cache
+      dispatch(setGuessNumber(guessNumber + 1));
+      // Add the current guess to the list of previous guesses and save it in cache
+      dispatch(setPreviousGuesses([...previousGuesses, guess]));
+      // set finish flag
+      dispatch(setFinished(guessNumber === 5));
     }
     setIsProcessingGuess(false);
   };

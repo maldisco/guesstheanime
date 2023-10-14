@@ -78,27 +78,27 @@ export const themeSettings = (mode) => {
       fontFamily: ["Roboto", "sans-serif"].join(","),
       fontSize: 12,
       h1: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 40,
       },
       h2: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 32,
       },
       h3: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 24,
       },
       h4: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 20,
       },
       h5: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 16,
       },
       h6: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 14,
       },
       pageNumber: {
@@ -106,7 +106,7 @@ export const themeSettings = (mode) => {
         fontSize: 16,
       },
       slim: {
-        fontFamily: ["Komika Slim", "sans-serif"].join(","),
+        fontFamily: ["Comic Sans", "cursive"].join(","),
         fontSize: 12,
       },
     },

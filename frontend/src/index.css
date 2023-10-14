@@ -1,12 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:wght@400;500;700&display=swap');
-@font-face {
-  font-family: "Komika";
-  src: url('/public/fonts/KOMIKAH_.ttf') format('truetype');
-}
-@font-face {
-  font-family: "Komika Slim";
-  src: url('/public/fonts/KOMIKASL.ttf') format('truetype');
-}
 
 html,
 body,

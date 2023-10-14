@@ -17,6 +17,26 @@ const initialState = {
   previousGuesses: [],
   finished: false,
   correct: false,
+  tipsNumber: {
+    review : 1,
+    studio: 2,
+    genres: 2,
+    format: 3,
+    popularity: 3,
+    tags: 4,
+    scores: 5,
+    recommendations: 6
+  },
+  tipsColor: {
+    review : "white",
+    studio: "white",
+    genres: "white",
+    format: "white",
+    popularity: "white",
+    tags: "white",
+    scores: "white",
+    recommendations: "white"
+  }
 };
 
 export const animeSlice = createSlice({
@@ -52,6 +72,12 @@ export const animeSlice = createSlice({
       state.correctGuesses = initialState.correctGuesses;
       state.animeList = initialState.animeList;
       state.current = initialState.current;
+      state.guessNumber = initialState.guessNumber;
+      state.previousGuesses = initialState.previousGuesses;
+      state.finished = initialState.finished;
+      state.correct = initialState.correct;
+      state.tipsNumber = initialState.tipsNumber;
+      state.tipsColor = initialState.tipsColor;
     },
     setGuessNumber: (state, action) => {
       state.guessNumber = action.payload;
@@ -65,6 +91,12 @@ export const animeSlice = createSlice({
     setCorrect: (state, action) => {
       state.correct = action.payload;
     },
+    setTipsNumber: (state, action) => {
+      state.tipsNumber = action.payload
+    },
+    setTipsColor: (state, action) => {
+      state.tipsColor = action.payload
+    }
   },
 });
 
@@ -81,5 +113,7 @@ export const {
   setPreviousGuesses,
   setFinished,
   setCorrect,
+  setTipsNumber,
+  setTipsColor
 } = animeSlice.actions;
 export default animeSlice.reducer;

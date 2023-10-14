@@ -25,6 +25,8 @@ query ($id: Int, $name: String) {
           popularity
           tags {
             name
+            description
+            rank
           }
           reviews(sort: RATING) {
             nodes {
@@ -46,6 +48,26 @@ query ($id: Int, $name: String) {
           rankings {
             rank
             context
+          }
+          relations {
+            edges {
+              node {
+                title {
+                  romaji
+                }
+                format
+              }
+              relationType
+            }
+          }
+          recommendations(sort: RATING_DESC){
+            nodes {
+              mediaRecommendation {
+                coverImage {
+                  medium
+                }
+              }
+            }
           }
         }
         score
@@ -171,9 +193,10 @@ const Register = () => {
         if (list.name !== "Planning") {
           for (const entry of list.entries) {
             var isSequel = false;
-            for (const added of alreadyAdded) {
-              if (entry.media.title.romaji.includes(added)) {
+            for (const relation of entry.media.relations.edges) {
+              if (relation.relationType === "PREQUEL" && relation.node.format === "TV") {
                 isSequel = true;
+                break;
               }
             }
             const hasReviews = entry.media.reviews.nodes.length > 0;
@@ -202,9 +225,18 @@ const Register = () => {
                 entry.score,
                 entry.user.mediaListOptions.scoreFormat
               );
-              anime["tags"] = entry.media.tags.map((tag) => tag.name);
+              anime["tags"] = entry.media.tags;
+              // ge 5 recommendations or all available
+              anime["recommendations"] = [];
+              for (const recommendation of entry.media.recommendations.nodes) {
+                if (anime["recommendations"].length >= 5) {
+                  break;
+                }
+                anime["recommendations"].push(
+                  recommendation.mediaRecommendation.coverImage.medium
+                );
+              }
 
-              // get 5 reviews or all available
               anime["review"] = filter_names(
                 entry.media.reviews.nodes[0].summary,
                 entry.media.title.romaji,

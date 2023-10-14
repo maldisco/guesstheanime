@@ -13,6 +13,7 @@ const PreviousGuesses = ({ previousGuesses }) => {
     >
       {previousGuesses.map((guess, index) => (
         <Typography
+          variant="pageNumber"
           sx={{
             backgroundColor: theme.palette.neutral.light,
             p: "0.5rem",

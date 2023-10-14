@@ -1,6 +1,6 @@
 import { Typography, Box, Button } from "@mui/material";
 
-const ResultFeedback = ({ correct, animeName, onClickNext }) => {
+const ResultFeedback = ({ correct, onClickNext }) => {
   return (
     <Box
       display="flex"
@@ -8,11 +8,10 @@ const ResultFeedback = ({ correct, animeName, onClickNext }) => {
       width="100%"
       alignItems="center"
     >
-      <Typography color={correct ? "green" : "red"} variant="h4">
+      <Typography color={correct ? "green" : "red"} variant="pageNumber" fontSize="30px">
         {correct
           ? "Parabéns! Você acertou!"
-          : `Acabaram as tentativas... A resposta é `}
-        {correct || <strong>{animeName}</strong>}
+          : `Não foi dessa vez... `}
       </Typography>
       <Box>
         <Button

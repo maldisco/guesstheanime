@@ -108,7 +108,7 @@ function Leaderboard({ isOpen, onClose }) {
           </Typography>
         </Box>
 
-        {Array.from({ length: 6 }, (_, index) => (
+        {Array.from({ length: 5 }, (_, index) => (
           <Box display="flex" gap="1rem" key={index}>
             <Typography>{index + 1}</Typography>
             <Box backgroundColor={alt} width={barWidths[index + 1]} px=".1rem">

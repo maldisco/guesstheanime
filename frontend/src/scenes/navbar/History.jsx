@@ -47,6 +47,7 @@ function History({ isOpen, onClose }) {
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                   }}
+                  fontFamily="Roboto, sans-serif"
                   className="typo"
                   color={theme.palette.neutral.dark}
                 >

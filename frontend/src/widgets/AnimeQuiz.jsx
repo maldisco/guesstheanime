@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   setCurrent,
   setAlreadyGuessed,
@@ -8,9 +8,10 @@ import {
   setFinished,
   setCorrect,
   resetGuesses,
+  setTipsNumber,
+  setTipsColor,
 } from "state";
 import WidgetWrapper from "components/WidgetWrapper";
-import AnimeImage from "components/AnimeImage";
 import GuessCounter from "components/GuessCounter";
 import ResultFeedback from "components/ResultFeedback";
 import AnimeInformation from "components/AnimeInformation";
@@ -20,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 /**
- * A component that renders an anime guessing game.
+ * A component that renders a quiz game for guessing anime names.
  * @param {Object} props - The component props.
  * @param {number} props.guessNumber - The current guess number.
  * @param {Array} props.previousGuesses - The list of previous guesses.
@@ -28,7 +29,10 @@ import { useState, useEffect } from "react";
  * @param {Array} props.alreadyGuessed - The list of already guessed animes.
  * @param {boolean} props.finished - A flag indicating if the game has finished.
  * @param {boolean} props.correct - A flag indicating if the current guess is correct.
- * @returns {JSX.Element} - The JSX element representing the AnimeQuiz component.
+ * @param {Array} props.animeList - The list of all available animes.
+ * @param {Object} props.tipsNumber - The number of tips available for each category.
+ * @param {Object} props.tipsColor - The color of each tip category.
+ * @returns {JSX.Element} - The AnimeQuiz component.
  */
 const AnimeQuiz = ({
   guessNumber,
@@ -38,6 +42,8 @@ const AnimeQuiz = ({
   finished,
   correct,
   animeList,
+  tipsNumber,
+  tipsColor,
 }) => {
   const dispatch = useDispatch();
 
@@ -45,6 +51,7 @@ const AnimeQuiz = ({
   const [animeNames, setAnimeNames] = useState([]);
   const [guess, setGuess] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isProcessingGuess, setIsProcessingGuess] = useState(false);
 
   const normalizeAndClean = (str) => {
     if (!str) return null;
@@ -87,6 +94,45 @@ const AnimeQuiz = ({
     return possibleAnime[randomIndex];
   };
 
+  const randomizeTips = () => {
+    let numbers = [1, 2, 2, 3, 3, 4, 5, 5];
+    for (let i = numbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+    }
+
+    let tips = {
+      review: 0,
+      studio: 0,
+      genres: 0,
+      format: 0,
+      popularity: 0,
+      score: 0,
+      tags: 0,
+      recommendations: 0,
+    };
+
+    Object.keys(tips).forEach((key, index) => {
+      tips[key] = numbers[index];
+    });
+
+    let colorOptions = ["black", "white", "white"];
+    let tipsColor = {
+      review: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      studio: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      genres: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      format: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      popularity: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      score: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      tags: colorOptions[Math.floor(Math.random() * colorOptions.length)],
+      recommendations:
+        colorOptions[Math.floor(Math.random() * colorOptions.length)],
+    };
+
+    dispatch(setTipsColor(tipsColor));
+    dispatch(setTipsNumber(tips));
+  };
+
   const start = async () => {
     const alreadyGuessedAnimeNames = alreadyGuessed.map((anime) => anime.anime);
     const possibleAnime = animeList.filter(
@@ -98,6 +144,7 @@ const AnimeQuiz = ({
       // Get a new anime
       const randomAnime = getRandomAnime(possibleAnime);
       dispatch(setCurrent(randomAnime));
+      randomizeTips();
     }
 
     // Get all anime names for the autocomplete
@@ -112,24 +159,27 @@ const AnimeQuiz = ({
 
   const tryGuess = async () => {
     if (!guess) return;
-
-    if (guess === current.nome || guess === current.nome2) {
-      // Save the correct guess number to cache
-      dispatch(addCorrectGuess(guessNumber));
-      // set correct flag
-      dispatch(setCorrect(true));
-      // set finish flag
-      dispatch(setFinished(true));
-      // Save current list of previous guesses to cache
-      dispatch(setPreviousGuesses([...previousGuesses, guess]));
-    } else {
-      // Add 1 to the current guess number and save it in cache
-      dispatch(setGuessNumber(guessNumber + 1));
-      // Add the current guess to the list of previous guesses and save it in cache
-      dispatch(setPreviousGuesses([...previousGuesses, guess]));
-      // set finish flag
-      dispatch(setFinished(guessNumber === 5));
+    setIsProcessingGuess(true);
+    {
+      if (guess === current.nome || guess === current.nome2) {
+        // Save the correct guess number to cache
+        dispatch(addCorrectGuess(guessNumber));
+        // set correct flag
+        dispatch(setCorrect(true));
+        // set finish flag
+        dispatch(setFinished(true));
+        // Save current list of previous guesses to cache
+        dispatch(setPreviousGuesses([...previousGuesses, guess]));
+      } else {
+        // Add 1 to the current guess number and save it in cache
+        dispatch(setGuessNumber(guessNumber + 1));
+        // Add the current guess to the list of previous guesses and save it in cache
+        dispatch(setPreviousGuesses([...previousGuesses, guess]));
+        // set finish flag
+        dispatch(setFinished(guessNumber === 5));
+      }
     }
+    setIsProcessingGuess(false);
   };
 
   const reset = async () => {
@@ -155,6 +205,9 @@ const AnimeQuiz = ({
       setAnimeNames(getUniqueNames(possibleAnime));
       const randomAnime = getRandomAnime(possibleAnime);
       dispatch(setCurrent(randomAnime));
+
+      // randomize tips order
+      randomizeTips();
 
       setGuess("");
       dispatch(resetGuesses());
@@ -182,48 +235,46 @@ const AnimeQuiz = ({
         <WidgetWrapper
           display="flex"
           flexDirection="column"
-          gap="1rem"
-          height="100%"
+          gap="2vh"
+          justifyContent="center"
+          alignItems="center"
         >
-          <AnimeImage image={current.cover} finished={finished} />
-
-          <Box display="flex" justifyContent="center" width="100%">
-            <Typography variant="h5">Release: {current.ano}</Typography>
-          </Box>
-
-          <GuessCounter
+          <AnimeInformation
+            current={current}
             finished={finished}
-            correct={correct}
+            tipsNumber={tipsNumber}
+            tipsColor={tipsColor}
             guessNumber={guessNumber}
-            onSkip={skipGuess}
+            alreadyGuessed={alreadyGuessed}
           />
 
-          {finished && (
+          {!finished ? (
+            <Box display="flex" flexDirection="column" gap="2vh">
+              {/* GUESS COUNTER */}
+              <GuessCounter
+                guessNumber={guessNumber}
+                finished={finished}
+                correct={correct}
+                onSkip={skipGuess}
+              />
+              {/* GUESS INPUT */}
+              <GuessInput
+                onNameSelect={selectName}
+                tryGuess={tryGuess}
+                animeNames={animeNames}
+                isProcessingGuess={isProcessingGuess}
+              />
+
+              {/* PREVIOUS GUESSES */}
+              <PreviousGuesses previousGuesses={previousGuesses} />
+            </Box>
+          ) : (
             <ResultFeedback
-              finished={finished}
               correct={correct}
               animeName={current.nome}
               onClickNext={reset}
             />
           )}
-
-          {!finished && (
-            <GuessInput
-              onNameSelect={selectName}
-              tryGuess={tryGuess}
-              animeNames={animeNames}
-            />
-          )}
-
-          {!finished && (
-            <AnimeInformation
-              finished={finished}
-              guessNumber={guessNumber}
-              current={current}
-            />
-          )}
-
-          <PreviousGuesses previousGuesses={previousGuesses} />
         </WidgetWrapper>
       )}
     </>

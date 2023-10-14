@@ -13,8 +13,9 @@ import History from "./History";
 import { useState } from "react";
 import SakuraFlower from "images/sakura_flower.png";
 import Logout from "./Logout";
+import useMediaQuery from "hooks/useMediaQuery";
 
-const NavBar = ({animeList}) => {
+const NavBar = ({ animeList }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
@@ -24,9 +25,17 @@ const NavBar = ({animeList}) => {
   const theme = useTheme();
   const dark = theme.palette.neutral.dark;
   const alt = theme.palette.background.alt;
+  const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
 
   return (
-    <FlexBetween padding="1rem" backgroundColor={alt} position="fixed" top="0" width="100vw">
+    <FlexBetween
+      padding="1rem"
+      backgroundColor={alt}
+      position="fixed"
+      top="0"
+      width="100vw"
+      zIndex="1"
+    >
       <FlexBetween
         gap="0.5rem"
         onClick={() => navigate("/")}
@@ -37,13 +46,15 @@ const NavBar = ({animeList}) => {
         }}
       >
         <img width="50px" height="auto" alt="sakura" src={SakuraFlower} />
-        <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 2rem, 2.25rem)"
-          color="primary"
-        >
-          Guess the アニメ
-        </Typography>
+        {isAboveMediumScreens && (
+          <Typography
+            fontWeight="bold"
+            fontSize="clamp(1rem, 2rem, 2.25rem)"
+            color="primary"
+          >
+            Guess the アニメ
+          </Typography>
+        )}
       </FlexBetween>
 
       <FlexBetween gap="1rem">

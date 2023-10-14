@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Navbar from "scenes/navbar";
 import Footer from "scenes/footer";
 import AnimeQuiz from "widgets/AnimeQuiz";
@@ -16,11 +16,19 @@ const HomePage = () => {
     correct,
     animeList,
     currentReview,
+    tipsNumber,
+    tipsColor
   } = useSelector((state) => state);
+  const theme = useTheme();
 
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
-      <Navbar animeList={animeList}/>
+    <Box
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      backgroundColor={theme.palette.background.dark}
+    >
+      <Navbar animeList={animeList} />
       <Box
         width="100%"
         padding="2rem 6%"
@@ -28,7 +36,7 @@ const HomePage = () => {
         justifyContent="center"
         mt="5rem"
       >
-        <Box flexBasis="60%" maxWidth="60%">
+        <Box flexBasis="70%" maxWidth="70%">
           {animeList.length > 0 ? (
             <AnimeQuiz
               guessNumber={guessNumber}
@@ -39,6 +47,8 @@ const HomePage = () => {
               finished={finished}
               correct={correct}
               animeList={animeList}
+              tipsNumber={tipsNumber}
+              tipsColor={tipsColor}
             />
           ) : (
             <Register />

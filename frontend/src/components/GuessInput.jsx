@@ -26,7 +26,7 @@ const GuessInput = ({ onNameSelect, tryGuess, animeNames, isProcessingGuess }) =
           onClick={() => tryGuess()}
           disabled={isProcessingGuess}
         >
-          Próximo
+          Guess
         </Button>
       </Box>
     </Box>

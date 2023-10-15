@@ -10,8 +10,8 @@ const ResultFeedback = ({ correct, onClickNext }) => {
     >
       <Typography color={correct ? "green" : "red"} variant="pageNumber" fontSize="30px">
         {correct
-          ? "Parabéns! Você acertou!"
-          : `Não foi dessa vez... `}
+          ? "Congratulations!"
+          : `Not quite... `}
       </Typography>
       <Box>
         <Button
@@ -20,7 +20,7 @@ const ResultFeedback = ({ correct, onClickNext }) => {
           size="large"
           onClick={() => onClickNext()}
         >
-          Próximo
+          Next
         </Button>
       </Box>
     </Box>

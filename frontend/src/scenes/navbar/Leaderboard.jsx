@@ -97,12 +97,7 @@ function Leaderboard({ isOpen, onClose }) {
         </FlexBetween>
 
         {/* Distribuição de acertos e barras */}
-        <Box
-          fullWidth
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Box display="flex" justifyContent="center" alignItems="center">
           <Typography fontWeight="bold" variant="h4">
             Distribution of correct guesses
           </Typography>

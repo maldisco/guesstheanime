@@ -16,3 +16,12 @@ body,
   width: 100%;
   font-family: "Roboto", sans-serif;
 }
+
+.image-item {
+  transition: transform 0.5s;
+}
+
+.image-item:hover {
+  transform: scale(2);
+  z-index: 1;
+}

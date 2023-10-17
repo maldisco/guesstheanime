@@ -122,11 +122,7 @@ const AnimeInformation = ({
             height="10vh"
             top="32vh"
             title="Format"
-            information={
-              current.episodios > 1
-                ? `${current.formato}`
-                : `Movie`
-            }
+            information={current.episodios > 1 ? `${current.formato}` : `Movie`}
             variant="black"
             guessNumber={guessNumber}
             tipNumber={tipsNumber.format}
@@ -286,6 +282,7 @@ const AnimeInformation = ({
                 {current.recommendations.map((recommendation, index) => {
                   return (
                     <img
+                      key={index}
                       alt={`Recommendation number ${index}`}
                       src={recommendation}
                       style={{
@@ -293,7 +290,9 @@ const AnimeInformation = ({
                         height: "70%",
                         width: "auto",
                         objectFit: "cover",
+                        transition: "transform 0.3s ease",
                       }}
+                      className="image-item"
                     />
                   );
                 })}

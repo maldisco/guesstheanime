@@ -78,7 +78,7 @@ export const themeSettings = (mode) => {
       fontFamily: ["Roboto", "sans-serif"].join(","),
       fontSize: 12,
       h1: {
-        fontFamily: ["Komika", "sans-serif"].join(","),
+        fontFamily: ["Roboto", "sans-serif"].join(","),
         fontSize: 40,
       },
       h2: {

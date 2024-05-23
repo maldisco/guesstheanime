@@ -316,7 +316,7 @@ const Register = () => {
         <Typography variant="pageNumber" textAlign="center">
           We will only use YOUR animes.
           <br />
-          You can also use many list if you are playing with friends! Just add a
+          You can also use many lists if you are playing with friends! Just add a
           comma between each username.
         </Typography>
         <img alt="Example username" src="example.png" width={isAboveMediumScreens ?  "auto" : "100%"} height="auto"/>
@@ -333,7 +333,7 @@ const Register = () => {
         >
           <TextField
             name="inform-username"
-            label="Username"
+            label="Username(s)"
             fullWidth
             sx={{ m: "1rem 0" }}
             value={usernames}

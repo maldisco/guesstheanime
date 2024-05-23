@@ -2,7 +2,7 @@ import { Box, useTheme } from "@mui/material";
 import Navbar from "scenes/navbar";
 import Footer from "scenes/footer";
 import AnimeQuiz from "widgets/AnimeQuiz";
-import Register from "scenes/register.jsx";
+import Register from "scenes/register";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {

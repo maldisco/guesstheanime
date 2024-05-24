@@ -279,17 +279,18 @@ const Register = () => {
       for (const entry of animes) {
         const wasAdded = alreadyAdded.includes(entry.media.title.romaji);
 
-        if (wasAdded) {
-          animelist[entry.media.title.romaji]["score"][user] = translate_score(
-            entry.score,
-            entry.user.mediaListOptions.scoreFormat
-          );
-        }
-
         if (validateAnime(entry)) {
-          const anime = parseAnime(entry, user);
-          animelist[anime["nome"]] = anime;
-          alreadyAdded.push(anime["nome"]);
+          if (wasAdded) {
+            animelist[entry.media.title.romaji]["score"][user] =
+              translate_score(
+                entry.score,
+                entry.user.mediaListOptions.scoreFormat
+              );
+          } else {
+            const anime = parseAnime(entry, user);
+            animelist[anime["nome"]] = anime;
+            alreadyAdded.push(anime["nome"]);
+          }
         }
       }
     }
@@ -316,10 +317,15 @@ const Register = () => {
         <Typography variant="pageNumber" textAlign="center">
           We will only use YOUR animes.
           <br />
-          You can also use many lists if you are playing with friends! Just add a
-          comma between each username.
+          You can also use many lists if you are playing with friends! Just add
+          a comma between each username.
         </Typography>
-        <img alt="Example username" src="example.png" width={isAboveMediumScreens ?  "auto" : "100%"} height="auto"/>
+        <img
+          alt="Example username"
+          src="example.png"
+          width={isAboveMediumScreens ? "auto" : "100%"}
+          height="auto"
+        />
         {!isValidUsername && (
           <Typography variant="h6" color="red">
             Invalid username

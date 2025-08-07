@@ -7,7 +7,7 @@ import { setAnimeList } from "state";
 
 const query = `
 query ($id: Int, $name: String) {
-  MediaListCollection(userId: $id, userName: $name, type: ANIME) {
+  MediaListCollection(userId: $id, userName: $name, type: ANIME, status: COMPLETED) {
     lists {
       name
       entries {
